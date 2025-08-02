@@ -1,0 +1,836 @@
+MariaDB [(none)]> use case_study;
+Database changed
+MariaDB [case_study]> SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employee;
++---------------+
+| full_name     |
++---------------+
+| Alice Johnson |
+| Bob Smith     |
+| Carol Adams   |
+| David Lee     |
+| Eve Martins   |
+| Frank Green   |
+| Grace Brown   |
+| Hank Wilson   |
+| Ivy Clark     |
+| Jake White    |
++---------------+
+10 rows in set (0.009 sec)
+
+MariaDB [case_study]> SELECT LOWER(first_name) AS first_name, LOWER(last_name) AS last_name FROM employee;
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| alice      | johnson   |
+| bob        | smith     |
+| carol      | adams     |
+| david      | lee       |
+| eve        | martins   |
+| frank      | green     |
+| grace      | brown     |
+| hank       | wilson    |
+| ivy        | clark     |
+| jake       | white     |
++------------+-----------+
+10 rows in set (0.010 sec)
+
+MariaDB [case_study]> SELECT SUBSTRING(first_name, 1, 3) AS first_3_letters FROM employee;
++-----------------+
+| first_3_letters |
++-----------------+
+| Ali             |
+| Bob             |
+| Car             |
+| Dav             |
+| Eve             |
+| Fra             |
+| Gra             |
+| Han             |
+| Ivy             |
+| Jak             |
++-----------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT REPLACE(email, '@company.com', '@org.com') AS updated_email FROM employee;
++-----------------------+
+| updated_email         |
++-----------------------+
+| alice.johnson@org.com |
+| bob.smith@org.com     |
+| carol.adams@org.com   |
+| david.lee@org.com     |
+| eve.martins@org.com   |
+| frank.green@org.com   |
+| grace.brown@org.com   |
+| hank.wilson@org.com   |
+| ivy.clark@org.com     |
+| jake.white@org.com    |
++-----------------------+
+10 rows in set (0.010 sec)
+
+MariaDB [case_study]> SELECT CHAR_LENGTH(CONCAT(first_name, ' ', last_name)) AS name_length FROM employee;
++-------------+
+| name_length |
++-------------+
+|          13 |
+|           9 |
+|          11 |
+|           9 |
+|          11 |
+|          11 |
+|          11 |
+|          11 |
+|           9 |
+|          10 |
++-------------+
+10 rows in set (0.010 sec)
+
+MariaDB [case_study]> SELECT INSTR(email, '@') AS at_position FROM employee;
++-------------+
+| at_position |
++-------------+
+|          14 |
+|          10 |
+|          12 |
+|          10 |
+|          12 |
+|          12 |
+|          12 |
+|          12 |
+|          10 |
+|          11 |
++-------------+
+10 rows in set (0.010 sec)
+
+MariaDB [case_study]> SELECT UPPER(project_name) AS upper_name FROM projects;
++---------------------------+
+| upper_name                |
++---------------------------+
+| HR REVAMP                 |
+| FINANCE AUTOMATION        |
+| IT INFRASTRUCTURE UPGRADE |
+| MARKETING BLITZ 2025      |
+| LEGAL COMPLIANCE          |
+| CUSTOMER PORTAL           |
+| SALES BOOSTER             |
+| R&D PILOT                 |
+| PROCUREMENT TRACKER       |
+| OPERATIONS STREAMLINE     |
++---------------------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT REPLACE(project_name, '-', '') AS no_dashes FROM projects;
++---------------------------+
+| no_dashes                 |
++---------------------------+
+| HR Revamp                 |
+| Finance Automation        |
+| IT Infrastructure Upgrade |
+| Marketing Blitz 2025      |
+| Legal Compliance          |
+| Customer Portal           |
+| Sales Booster             |
+| R&D Pilot                 |
+| Procurement Tracker       |
+| Operations Streamline     |
++---------------------------+
+10 rows in set (0.002 sec)
+
+MariaDB [case_study]> ECT CONCAT('Emp: ', first_name, ' ', last_name, ' (', d.department_name, ')') AS label
+    -> FROM employee e
+    -> JOIN departments d ON e.department_id = d.department_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ECT CONCAT('Emp: ', first_name, ' ', last_name, ' (', d.department_name, ')')...' at line 1
+MariaDB [case_study]> SELECT CONCAT('Emp: ', first_name, ' ', last_name, ' (', d.department_name, ')') AS label
+    -> FROM employee e
+    -> JOIN departments d ON e.department_id = d.department_id;
++-------------------------------------------+
+| label                                     |
++-------------------------------------------+
+| Emp: Alice Johnson (Human Resources)      |
+| Emp: Bob Smith (Information Technology)   |
+| Emp: Carol Adams (Finance)                |
+| Emp: David Lee (Marketing)                |
+| Emp: Eve Martins (Information Technology) |
+| Emp: Frank Green (Sales)                  |
+| Emp: Grace Brown (Legal)                  |
+| Emp: Hank Wilson (Operations)             |
+| Emp: Ivy Clark (Research and Development) |
+| Emp: Jake White (Customer Service)        |
++-------------------------------------------+
+10 rows in set (0.017 sec)
+
+MariaDB [case_study]> SELECT email, CHAR_LENGTH(email) AS length FROM employee;
++---------------------------+--------+
+| email                     | length |
++---------------------------+--------+
+| alice.johnson@company.com |     25 |
+| bob.smith@company.com     |     21 |
+| carol.adams@company.com   |     23 |
+| david.lee@company.com     |     21 |
+| eve.martins@company.com   |     23 |
+| frank.green@company.com   |     23 |
+| grace.brown@company.com   |     23 |
+| hank.wilson@company.com   |     23 |
+| ivy.clark@company.com     |     21 |
+| jake.white@company.com    |     22 |
++---------------------------+--------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT SUBSTRING_INDEX(email, '@', 1) AS username FROM employee;
++---------------+
+| username      |
++---------------+
+| alice.johnson |
+| bob.smith     |
+| carol.adams   |
+| david.lee     |
+| eve.martins   |
+| frank.green   |
+| grace.brown   |
+| hank.wilson   |
+| ivy.clark     |
+| jake.white    |
++---------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT CONCAT(UPPER(last_name), ', ', first_name) AS formatted_name FROM employee;
++----------------+
+| formatted_name |
++----------------+
+| JOHNSON, Alice |
+| SMITH, Bob     |
+| ADAMS, Carol   |
+| LEE, David     |
+| MARTINS, Eve   |
+| GREEN, Frank   |
+| BROWN, Grace   |
+| WILSON, Hank   |
+| CLARK, Ivy     |
+| WHITE, Jake    |
++----------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT
+    ->   CONCAT(first_name, ' ', last_name,
+    ->     CASE
+    ->       WHEN p.end_date IS NULL OR p.end_date >= CURDATE() THEN ' (Active)'
+    ->       ELSE ''
+    ->     END
+    ->   ) AS name_status
+    -> FROM employee e
+    -> LEFT JOIN employee_projects ep ON e.employee_id = ep.employee_id
+    -> LEFT JOIN projects p ON ep.project_id = p.project_id;
++----------------------+
+| name_status          |
++----------------------+
+| Alice Johnson        |
+| Bob Smith (Active)   |
+| Carol Adams          |
+| David Lee            |
+| Eve Martins (Active) |
+| Frank Green          |
+| Grace Brown          |
+| Hank Wilson          |
+| Ivy Clark (Active)   |
+| Jake White           |
++----------------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT first_name, salary, ROUND(salary) AS rounded_salary FROM employee;
++------------+---------+----------------+
+| first_name | salary  | rounded_salary |
++------------+---------+----------------+
+| Alice      | 4500.00 |           4500 |
+| Bob        | 5200.00 |           5200 |
+| Carol      | 6700.00 |           6700 |
+| David      | 3800.00 |           3800 |
+| Eve        | 4000.00 |           4000 |
+| Frank      | 6000.00 |           6000 |
+| Grace      | 4900.00 |           4900 |
+| Hank       | 3100.00 |           3100 |
+| Ivy        | 2700.00 |           2700 |
+| Jake       | 3600.00 |           3600 |
++------------+---------+----------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT * FROM employee WHERE MOD(ROUND(salary), 2) = 0;
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+| employee_id | first_name | last_name | email                     | hire_date  | salary  | department_id |
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+|         101 | Alice      | Johnson   | alice.johnson@company.com | 2015-03-15 | 4500.00 |             1 |
+|         102 | Bob        | Smith     | bob.smith@company.com     | 2018-06-23 | 5200.00 |             3 |
+|         103 | Carol      | Adams     | carol.adams@company.com   | 2012-09-10 | 6700.00 |             2 |
+|         104 | David      | Lee       | david.lee@company.com     | 2020-01-05 | 3800.00 |             4 |
+|         105 | Eve        | Martins   | eve.martins@company.com   | 2019-12-11 | 4000.00 |             3 |
+|         106 | Frank      | Green     | frank.green@company.com   | 2017-07-08 | 6000.00 |             8 |
+|         107 | Grace      | Brown     | grace.brown@company.com   | 2014-11-02 | 4900.00 |             5 |
+|         108 | Hank       | Wilson    | hank.wilson@company.com   | 2013-02-17 | 3100.00 |             6 |
+|         109 | Ivy        | Clark     | ivy.clark@company.com     | 2021-08-30 | 2700.00 |             9 |
+|         110 | Jake       | White     | jake.white@company.com    | 2022-05-19 | 3600.00 |             7 |
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+10 rows in set (0.011 sec)
+
+MariaDB [case_study]> SELECT project_name, DATEDIFF(end_date, start_date) AS duration_days FROM projects;
++---------------------------+---------------+
+| project_name              | duration_days |
++---------------------------+---------------+
+| HR Revamp                 |           364 |
+| Finance Automation        |           350 |
+| IT Infrastructure Upgrade |          NULL |
+| Marketing Blitz 2025      |           149 |
+| Legal Compliance          |           184 |
+| Customer Portal           |           364 |
+| Sales Booster             |           364 |
+| R&D Pilot                 |          NULL |
+| Procurement Tracker       |           245 |
+| Operations Streamline     |           365 |
++---------------------------+---------------+
+10 rows in set (0.002 sec)
+
+MariaDB [case_study]> SELECT
+    ->   ABS((SELECT salary FROM employee WHERE employee_id = 101) -
+    ->       (SELECT salary FROM employee WHERE employee_id = 102)) AS salary_diff;
++-------------+
+| salary_diff |
++-------------+
+|      700.00 |
++-------------+
+1 row in set (0.012 sec)
+
+MariaDB [case_study]> SELECT first_name, salary, salary * POWER(1.1, 1) AS raised_salary FROM employee;
++------------+---------+--------------------+
+| first_name | salary  | raised_salary      |
++------------+---------+--------------------+
+| Alice      | 4500.00 |               4950 |
+| Bob        | 5200.00 |  5720.000000000001 |
+| Carol      | 6700.00 |  7370.000000000001 |
+| David      | 3800.00 |               4180 |
+| Eve        | 4000.00 |               4400 |
+| Frank      | 6000.00 |  6600.000000000001 |
+| Grace      | 4900.00 |               5390 |
+| Hank       | 3100.00 | 3410.0000000000005 |
+| Ivy        | 2700.00 | 2970.0000000000005 |
+| Jake       | 3600.00 | 3960.0000000000005 |
++------------+---------+--------------------+
+10 rows in set (0.011 sec)
+
+MariaDB [case_study]> SELECT employee_id, FLOOR(1000 + RAND() * 9000) AS random_id FROM employee;
++-------------+-----------+
+| employee_id | random_id |
++-------------+-----------+
+|         101 |      2857 |
+|         103 |      9898 |
+|         102 |      3920 |
+|         105 |      6908 |
+|         104 |      3780 |
+|         107 |      6175 |
+|         108 |      9535 |
+|         110 |      1150 |
+|         106 |      3147 |
+|         109 |      2285 |
++-------------+-----------+
+10 rows in set (0.011 sec)
+
+MariaDB [case_study]> SELECT salary, CEIL(salary) AS ceil_salary, FLOOR(salary) AS floor_salary FROM employee;
++---------+-------------+--------------+
+| salary  | ceil_salary | floor_salary |
++---------+-------------+--------------+
+| 4500.00 |        4500 |         4500 |
+| 5200.00 |        5200 |         5200 |
+| 6700.00 |        6700 |         6700 |
+| 3800.00 |        3800 |         3800 |
+| 4000.00 |        4000 |         4000 |
+| 6000.00 |        6000 |         6000 |
+| 4900.00 |        4900 |         4900 |
+| 3100.00 |        3100 |         3100 |
+| 2700.00 |        2700 |         2700 |
+| 3600.00 |        3600 |         3600 |
++---------+-------------+--------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT LENGTH('0788123456') AS phone_length;
++--------------+
+| phone_length |
++--------------+
+|           10 |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [case_study]> SELECT salary,
+    ->   CASE
+    ->     WHEN salary >= 70000 THEN 'High'
+    ->     WHEN salary >= 50000 THEN 'Medium'
+    ->     ELSE 'Low'
+    ->   END AS salary_category
+    -> FROM employee;
++---------+-----------------+
+| salary  | salary_category |
++---------+-----------------+
+| 4500.00 | Low             |
+| 5200.00 | Low             |
+| 6700.00 | Low             |
+| 3800.00 | Low             |
+| 4000.00 | Low             |
+| 6000.00 | Low             |
+| 4900.00 | Low             |
+| 3100.00 | Low             |
+| 2700.00 | Low             |
+| 3600.00 | Low             |
++---------+-----------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT salary, CHAR_LENGTH(TRUNCATE(salary, 0)) AS digit_count FROM employee;
++---------+-------------+
+| salary  | digit_count |
++---------+-------------+
+| 4500.00 |           4 |
+| 5200.00 |           4 |
+| 6700.00 |           4 |
+| 3800.00 |           4 |
+| 4000.00 |           4 |
+| 6000.00 |           4 |
+| 4900.00 |           4 |
+| 3100.00 |           4 |
+| 2700.00 |           4 |
+| 3600.00 |           4 |
++---------+-------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT CURRENT_DATE() AS today;
++------------+
+| today      |
++------------+
+| 2025-07-27 |
++------------+
+1 row in set (0.001 sec)
+
+MariaDB [case_study]> SELECT first_name, DATEDIFF(CURRENT_DATE(), hire_date) AS days_worked FROM employee;
++------------+-------------+
+| first_name | days_worked |
++------------+-------------+
+| Alice      |        3787 |
+| Bob        |        2591 |
+| Carol      |        4703 |
+| David      |        2030 |
+| Eve        |        2055 |
+| Frank      |        2941 |
+| Grace      |        3920 |
+| Hank       |        4543 |
+| Ivy        |        1427 |
+| Jake       |        1165 |
++------------+-------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT * FROM employee WHERE YEAR(hire_date) = YEAR(CURDATE());
+Empty set (0.011 sec)
+
+MariaDB [case_study]> SELECT NOW() AS current_datetime;
++---------------------+
+| current_datetime    |
++---------------------+
+| 2025-07-27 21:37:30 |
++---------------------+
+1 row in set (0.002 sec)
+
+MariaDB [case_study]> SELECT hire_date, YEAR(hire_date) AS year, MONTH(hire_date) AS month, DAY(hire_date) AS day FROM employee;
++------------+------+-------+------+
+| hire_date  | year | month | day  |
++------------+------+-------+------+
+| 2015-03-15 | 2015 |     3 |   15 |
+| 2018-06-23 | 2018 |     6 |   23 |
+| 2012-09-10 | 2012 |     9 |   10 |
+| 2020-01-05 | 2020 |     1 |    5 |
+| 2019-12-11 | 2019 |    12 |   11 |
+| 2017-07-08 | 2017 |     7 |    8 |
+| 2014-11-02 | 2014 |    11 |    2 |
+| 2013-02-17 | 2013 |     2 |   17 |
+| 2021-08-30 | 2021 |     8 |   30 |
+| 2022-05-19 | 2022 |     5 |   19 |
++------------+------+-------+------+
+10 rows in set (0.011 sec)
+
+MariaDB [case_study]> SELECT * FROM employee WHERE hire_date < '2020-01-01';
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+| employee_id | first_name | last_name | email                     | hire_date  | salary  | department_id |
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+|         101 | Alice      | Johnson   | alice.johnson@company.com | 2015-03-15 | 4500.00 |             1 |
+|         102 | Bob        | Smith     | bob.smith@company.com     | 2018-06-23 | 5200.00 |             3 |
+|         103 | Carol      | Adams     | carol.adams@company.com   | 2012-09-10 | 6700.00 |             2 |
+|         105 | Eve        | Martins   | eve.martins@company.com   | 2019-12-11 | 4000.00 |             3 |
+|         106 | Frank      | Green     | frank.green@company.com   | 2017-07-08 | 6000.00 |             8 |
+|         107 | Grace      | Brown     | grace.brown@company.com   | 2014-11-02 | 4900.00 |             5 |
+|         108 | Hank       | Wilson    | hank.wilson@company.com   | 2013-02-17 | 3100.00 |             6 |
++-------------+------------+-----------+---------------------------+------------+---------+---------------+
+7 rows in set (0.002 sec)
+
+MariaDB [case_study]> SELECT * FROM projects WHERE end_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE();
++------------+----------------------+------------+------------+
+| project_id | project_name         | start_date | end_date   |
++------------+----------------------+------------+------------+
+|        204 | Marketing Blitz 2025 | 2025-02-01 | 2025-06-30 |
++------------+----------------------+------------+------------+
+1 row in set (0.011 sec)
+
+MariaDB [case_study]> SELECT project_name, DATEDIFF(end_date, start_date) AS total_days FROM projects;
++---------------------------+------------+
+| project_name              | total_days |
++---------------------------+------------+
+| HR Revamp                 |        364 |
+| Finance Automation        |        350 |
+| IT Infrastructure Upgrade |       NULL |
+| Marketing Blitz 2025      |        149 |
+| Legal Compliance          |        184 |
+| Customer Portal           |        364 |
+| Sales Booster             |        364 |
+| R&D Pilot                 |       NULL |
+| Procurement Tracker       |        245 |
+| Operations Streamline     |        365 |
++---------------------------+------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT
+    ->   CONCAT(MONTHNAME('2025-07-23'), ' ', DAY('2025-07-23'), ', ', YEAR('2025-07-23')) AS formatted_date;
++----------------+
+| formatted_date |
++----------------+
+| July 23, 2025  |
++----------------+
+1 row in set (0.002 sec)
+
+MariaDB [case_study]> SELECT
+    ->   project_name,
+    ->   CASE
+    ->     WHEN end_date IS NULL THEN 'Ongoing'
+    ->     ELSE 'Ended'
+    ->   END AS status
+    -> FROM projects;
++---------------------------+---------+
+| project_name              | status  |
++---------------------------+---------+
+| HR Revamp                 | Ended   |
+| Finance Automation        | Ended   |
+| IT Infrastructure Upgrade | Ongoing |
+| Marketing Blitz 2025      | Ended   |
+| Legal Compliance          | Ended   |
+| Customer Portal           | Ended   |
+| Sales Booster             | Ended   |
+| R&D Pilot                 | Ongoing |
+| Procurement Tracker       | Ended   |
+| Operations Streamline     | Ended   |
++---------------------------+---------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT salary,
+    ->   CASE
+    ->     WHEN salary > 70000 THEN 'High'
+    ->     WHEN salary BETWEEN 50000 AND 70000 THEN 'Medium'
+    ->     ELSE 'Low'
+    ->   END AS level
+    -> FROM employee;
++---------+-------+
+| salary  | level |
++---------+-------+
+| 4500.00 | Low   |
+| 5200.00 | Low   |
+| 6700.00 | Low   |
+| 3800.00 | Low   |
+| 4000.00 | Low   |
+| 6000.00 | Low   |
+| 4900.00 | Low   |
+| 3100.00 | Low   |
+| 2700.00 | Low   |
+| 3600.00 | Low   |
++---------+-------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT COALESCE(email, 'No Email') AS checked_email FROM employee;
++---------------------------+
+| checked_email             |
++---------------------------+
+| alice.johnson@company.com |
+| bob.smith@company.com     |
+| carol.adams@company.com   |
+| david.lee@company.com     |
+| eve.martins@company.com   |
+| frank.green@company.com   |
+| grace.brown@company.com   |
+| hank.wilson@company.com   |
+| ivy.clark@company.com     |
+| jake.white@company.com    |
++---------------------------+
+10 rows in set (0.011 sec)
+
+MariaDB [case_study]> SELECT first_name,
+    ->   CASE WHEN hire_date < '2015-01-01' THEN 'Veteran' ELSE 'New' END AS experience
+    -> FROM employee;
++------------+------------+
+| first_name | experience |
++------------+------------+
+| Alice      | New        |
+| Bob        | New        |
+| Carol      | Veteran    |
+| David      | New        |
+| Eve        | New        |
+| Frank      | New        |
+| Grace      | Veteran    |
+| Hank       | Veteran    |
+| Ivy        | New        |
+| Jake       | New        |
++------------+------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT COALESCE(salary, 3000) AS fixed_salary FROM employee;
++--------------+
+| fixed_salary |
++--------------+
+|      4500.00 |
+|      5200.00 |
+|      6700.00 |
+|      3800.00 |
+|      4000.00 |
+|      6000.00 |
+|      4900.00 |
+|      3100.00 |
+|      2700.00 |
+|      3600.00 |
++--------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT department_name,
+    ->   CASE
+    ->     WHEN department_name = 'IT' THEN 'Tech'
+    ->     WHEN department_name = 'HR' THEN 'Admin'
+    ->     ELSE 'Other'
+    ->   END AS dept_category
+    -> FROM departments;
++--------------------------+---------------+
+| department_name          | dept_category |
++--------------------------+---------------+
+| Human Resources          | Other         |
+| Finance                  | Other         |
+| Information Technology   | Other         |
+| Marketing                | Other         |
+| Legal                    | Other         |
+| Operations               | Other         |
+| Customer Service         | Other         |
+| Sales                    | Other         |
+| Research and Development | Other         |
+| Procurement              | Other         |
++--------------------------+---------------+
+10 rows in set (0.002 sec)
+
+MariaDB [case_study]> SELECT e.employee_id,
+    ->   CASE
+    ->     WHEN ep.project_id IS NULL THEN 'Unassigned'
+    ->     ELSE 'Assigned'
+    ->   END AS assignment_status
+    -> FROM employee e
+    -> LEFT JOIN employee_projects ep ON e.employee_id = ep.employee_id;
++-------------+-------------------+
+| employee_id | assignment_status |
++-------------+-------------------+
+|         101 | Assigned          |
+|         103 | Assigned          |
+|         102 | Assigned          |
+|         105 | Assigned          |
+|         104 | Assigned          |
+|         107 | Assigned          |
+|         108 | Assigned          |
+|         110 | Assigned          |
+|         106 | Assigned          |
+|         109 | Assigned          |
++-------------+-------------------+
+10 rows in set (0.003 sec)
+
+MariaDB [case_study]> SELECT salary,
+    ->   CASE
+    ->     WHEN salary > 70000 THEN 'Band A'
+    ->     WHEN salary > 50000 THEN 'Band B'
+    ->     ELSE 'Band C'
+    ->   END AS tax_band
+    -> FROM employee;
++---------+----------+
+| salary  | tax_band |
++---------+----------+
+| 4500.00 | Band C   |
+| 5200.00 | Band C   |
+| 6700.00 | Band C   |
+| 3800.00 | Band C   |
+| 4000.00 | Band C   |
+| 6000.00 | Band C   |
+| 4900.00 | Band C   |
+| 3100.00 | Band C   |
+| 2700.00 | Band C   |
+| 3600.00 | Band C   |
++---------+----------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT project_name,
+    ->   CASE
+    ->     WHEN DATEDIFF(end_date, start_date) < 100 THEN 'Short'
+    ->     WHEN DATEDIFF(end_date, start_date) BETWEEN 100 AND 300 THEN 'Medium'
+    ->     ELSE 'Long'
+    ->   END AS duration_label
+    -> FROM projects;
++---------------------------+----------------+
+| project_name              | duration_label |
++---------------------------+----------------+
+| HR Revamp                 | Long           |
+| Finance Automation        | Long           |
+| IT Infrastructure Upgrade | Long           |
+| Marketing Blitz 2025      | Medium         |
+| Legal Compliance          | Medium         |
+| Customer Portal           | Long           |
+| Sales Booster             | Long           |
+| R&D Pilot                 | Long           |
+| Procurement Tracker       | Medium         |
+| Operations Streamline     | Long           |
++---------------------------+----------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT employee_id,
+    ->   CASE WHEN MOD(employee_id, 2) = 0 THEN 'Even' ELSE 'Odd' END AS id_type
+    -> FROM employee;
++-------------+---------+
+| employee_id | id_type |
++-------------+---------+
+|         101 | Odd     |
+|         103 | Odd     |
+|         102 | Even    |
+|         105 | Odd     |
+|         104 | Even    |
+|         107 | Odd     |
+|         108 | Even    |
+|         110 | Even    |
+|         106 | Even    |
+|         109 | Odd     |
++-------------+---------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT
+    ->   CONCAT(COALESCE(first_name, 'NoName'), ' ', COALESCE(last_name, 'NoSurname')) AS full_name
+    -> FROM employee;
++---------------+
+| full_name     |
++---------------+
+| Alice Johnson |
+| Bob Smith     |
+| Carol Adams   |
+| David Lee     |
+| Eve Martins   |
+| Frank Green   |
+| Grace Brown   |
+| Hank Wilson   |
+| Ivy Clark     |
+| Jake White    |
++---------------+
+10 rows in set (0.002 sec)
+
+MariaDB [case_study]> SELECT first_name,
+    ->   CASE WHEN LENGTH(first_name) > 10 THEN 'Long Name' ELSE 'Normal' END AS name_length
+    -> FROM employee;
++------------+-------------+
+| first_name | name_length |
++------------+-------------+
+| Alice      | Normal      |
+| Bob        | Normal      |
+| Carol      | Normal      |
+| David      | Normal      |
+| Eve        | Normal      |
+| Frank      | Normal      |
+| Grace      | Normal      |
+| Hank       | Normal      |
+| Ivy        | Normal      |
+| Jake       | Normal      |
++------------+-------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT email,
+    ->   CASE
+    ->     WHEN UPPER(email) LIKE '%TEST%' THEN 'Dummy'
+    ->     ELSE 'Real'
+    ->   END AS email_status
+    -> FROM employee;
++---------------------------+--------------+
+| email                     | email_status |
++---------------------------+--------------+
+| alice.johnson@company.com | Real         |
+| bob.smith@company.com     | Real         |
+| carol.adams@company.com   | Real         |
+| david.lee@company.com     | Real         |
+| eve.martins@company.com   | Real         |
+| frank.green@company.com   | Real         |
+| grace.brown@company.com   | Real         |
+| hank.wilson@company.com   | Real         |
+| ivy.clark@company.com     | Real         |
+| jake.white@company.com    | Real         |
++---------------------------+--------------+
+10 rows in set (0.003 sec)
+
+MariaDB [case_study]> SELECT first_name,
+    ->   CASE
+    ->     WHEN YEAR(hire_date) < 2015 THEN 'Senior'
+    ->     WHEN YEAR(hire_date) BETWEEN 2015 AND 2020 THEN 'Mid'
+    ->     ELSE 'Junior'
+    ->   END AS seniority
+    -> FROM employee;
++------------+-----------+
+| first_name | seniority |
++------------+-----------+
+| Alice      | Mid       |
+| Bob        | Mid       |
+| Carol      | Senior    |
+| David      | Mid       |
+| Eve        | Mid       |
+| Frank      | Mid       |
+| Grace      | Senior    |
+| Hank       | Senior    |
+| Ivy        | Junior    |
+| Jake       | Junior    |
++------------+-----------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT salary,
+    ->   CASE
+    ->     WHEN salary < 40000 THEN '10% Raise'
+    ->     WHEN salary < 60000 THEN '5% Raise'
+    ->     ELSE '2% Raise'
+    ->   END AS raise_policy
+    -> FROM employee;
++---------+--------------+
+| salary  | raise_policy |
++---------+--------------+
+| 4500.00 | 10% Raise    |
+| 5200.00 | 10% Raise    |
+| 6700.00 | 10% Raise    |
+| 3800.00 | 10% Raise    |
+| 4000.00 | 10% Raise    |
+| 6000.00 | 10% Raise    |
+| 4900.00 | 10% Raise    |
+| 3100.00 | 10% Raise    |
+| 2700.00 | 10% Raise    |
+| 3600.00 | 10% Raise    |
++---------+--------------+
+10 rows in set (0.001 sec)
+
+MariaDB [case_study]> SELECT first_name,
+    ->   CASE
+    ->     WHEN MONTH(hire_date) = MONTH(CURDATE()) THEN 'Anniversary Month'
+    ->     ELSE 'Not Anniversary'
+    ->   END AS anniversary_status
+    -> FROM employee;
++------------+--------------------+
+| first_name | anniversary_status |
++------------+--------------------+
+| Alice      | Not Anniversary    |
+| Bob        | Not Anniversary    |
+| Carol      | Not Anniversary    |
+| David      | Not Anniversary    |
+| Eve        | Not Anniversary    |
+| Frank      | Anniversary Month  |
+| Grace      | Not Anniversary    |
+| Hank       | Not Anniversary    |
+| Ivy        | Not Anniversary    |
+| Jake       | Not Anniversary    |
++------------+--------------------+
+10 rows in set (0.001 sec)
